@@ -9,8 +9,8 @@ import { useEffect } from "react";
 export default function Feed() {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ["data"],
-    queryFn: async () => {
-      const response = await fetch(`/api/posts`);
+    queryFn: async ({ pageParam }) => {
+      const response = await fetch(`/api/posts?page=${pageParam}`);
       return response.json() as Promise<PostData[]>;
     },
     initialPageParam: 0,

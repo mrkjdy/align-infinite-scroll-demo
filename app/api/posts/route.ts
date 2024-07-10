@@ -27,8 +27,10 @@ const getVideos = async (page: number) => {
   return videosResponse;
 };
 
-export async function GET() {
-  const page = Math.round(Math.random() * 1000);
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const pageParam = url.searchParams.get("page") ?? "0";
+  const page = Number.parseInt(pageParam, 10);
   const posts: PostData[] = [];
   if (Math.random() > 0.5) {
     const photosResponse = await getPhotos(page);
