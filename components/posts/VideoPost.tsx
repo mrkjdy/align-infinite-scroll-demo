@@ -10,7 +10,7 @@ type PostVideoProps = {
 };
 
 export default forwardRef<HTMLDivElement, PostVideoProps>(
-  ({ video }: PostVideoProps, containerRef) => {
+  function VideoPost({ video }: PostVideoProps, containerRef) {
     const [videoRef] = useInView({
       onChange: (inView, entry) => {
         const videoElement = entry.target as HTMLVideoElement;

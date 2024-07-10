@@ -12,12 +12,12 @@ export const metadata: Metadata = {
   description: "Created by Mark Judy",
 };
 
-export default ({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => (
-  <html lang="en">
+}>) {
+  return <html lang="en">
     <head>
       <link rel="preconnect" href="https://images.pexels.com" />
       <link rel="preconnect" href="https://videos.pexels.com" />
@@ -36,4 +36,4 @@ export default ({
       </main>
     </body>
   </html>
-);
+}

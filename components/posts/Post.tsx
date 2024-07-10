@@ -14,11 +14,11 @@ type PostProps = {
   data: PostData;
 };
 
-export default forwardRef<HTMLDivElement, PostProps>((
+export default forwardRef<HTMLDivElement, PostProps>(function Post(
   { data },
   ref,
-) =>
-  isPhoto(data)
+) {
+  return isPhoto(data)
     ? <ImagePost ref={ref} photo={data} />
-    : <VideoPost ref={ref} video={data} />
-);
+    : <VideoPost ref={ref} video={data} />;
+});

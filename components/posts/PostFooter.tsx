@@ -6,11 +6,13 @@ type PostFooterProps = {
   alt?: string;
 };
 
-export default ({ href, username, alt }: PostFooterProps) => (
-  <div className="flex justify-left space-x-2">
-    <Link href={href} className="font-bold">
-      {username}
-    </Link>
-    <p>{alt}</p>
-  </div>
-);
+export default function PostFooter({ href, username, alt }: PostFooterProps) {
+  return (
+    <div className="flex justify-left space-x-2">
+      <Link href={href} className="font-bold">
+        {username}
+      </Link>
+      <p>{alt}</p>
+    </div>
+  );
+}

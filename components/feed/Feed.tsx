@@ -6,7 +6,7 @@ import PostSkeleton from "../posts/PostSkeleton";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 
-export default () => {
+export default function Feed() {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ["data"],
     queryFn: async () => {
@@ -25,7 +25,7 @@ export default () => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, hasNextPage, fetchNextPage]);
 
   const postComponents = data?.pages.flatMap((postDatas, pageIndex) =>
     postDatas.map((postData, postIndex) => {

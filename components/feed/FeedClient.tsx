@@ -16,12 +16,14 @@ const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => (
   </div>
 );
 
-export default () => (
-  <QueryClientProvider client={queryClient}>
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Suspense fallback={<PostSkeleton />}>
-        <Feed />
-      </Suspense>
-    </ErrorBoundary>
-  </QueryClientProvider>
-);
+export default function FeedClient() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Suspense fallback={<PostSkeleton />}>
+          <Feed />
+        </Suspense>
+      </ErrorBoundary>
+    </QueryClientProvider>
+  );
+}

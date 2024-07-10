@@ -5,8 +5,10 @@ type PostBodyProps = {
   href: string;
 };
 
-export default ({ children, href }: PropsWithChildren<PostBodyProps>) => (
-  <div className="relative group flex items-center justify-center">
+export default function PostBody(
+  { children, href }: PropsWithChildren<PostBodyProps>,
+) {
+  return <div className="relative group flex items-center justify-center">
     {children}
     <div className="opacity-0 group-hover:opacity-100 duration-300 absolute inset-0 flex items-center justify-center h-full w-full pointer-events-none">
       <Link
@@ -16,5 +18,5 @@ export default ({ children, href }: PropsWithChildren<PostBodyProps>) => (
         {"View on Pexels ->"}
       </Link>
     </div>
-  </div>
-);
+  </div>;
+}
