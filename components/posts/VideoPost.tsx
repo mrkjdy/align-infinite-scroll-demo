@@ -22,14 +22,20 @@ export default forwardRef<HTMLDivElement, PostVideoProps>(
       },
     });
 
-    const sources = video.video_files.map((videoFile, index) => (
-      <source
-        src={videoFile.link}
-        type={videoFile.file_type}
-        media={`(max-width: ${videoFile.width}px`}
-        key={index}
-      />
-    ));
+    const sources = video.video_files.filter((vf) =>
+      vf.width !== null && vf.width <= 720
+    ).sort((vfA, vfB) => (vfA.width!) - (vfB.width!)).map(
+      (videoFile, index) => (
+        <source
+          src={videoFile.link}
+          type={videoFile.file_type}
+          media={index === video.video_files.length - 1
+            ? `(max-width: ${videoFile.width}px`
+            : `(min-width: 721px`}
+          key={index}
+        />
+      ),
+    );
 
     return (
       <PostContainer ref={containerRef}>
