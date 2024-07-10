@@ -1,5 +1,5 @@
 import { PostData } from "@/components/posts/Post";
-import { createClient, type Photo, type Video } from "pexels";
+import { createClient } from "pexels";
 
 const { PEXELS_API_KEY } = process.env;
 
@@ -9,57 +9,33 @@ if (PEXELS_API_KEY === undefined) {
 
 const pexelsClient = createClient(PEXELS_API_KEY);
 
-const per_page = 32;
+const per_page = 8;
 
-const photoBuf: Photo[] = [];
-let photoPage = 0;
-
-const getPhoto = async (): Promise<Photo> => {
-  if (photoBuf.length <= 0) {
-    const response = await pexelsClient.photos.curated({
-      page: photoPage,
-      per_page,
-    });
-    if ("error" in response) {
-      throw new Error(response.error);
-    }
-    if (typeof response.next_page === "string") {
-      photoPage += 1;
-    } else {
-      photoPage = 0;
-    }
-    photoBuf.push(...response.photos);
+const getPhotos = async (page: number) => {
+  const photosResponse = await pexelsClient.photos.curated({ page, per_page });
+  if ("error" in photosResponse) {
+    throw new Error(photosResponse.error);
   }
-  return photoBuf.pop()!;
+  return photosResponse;
 };
 
-const videoBuf: Video[] = [];
-let videoPage = 0;
-
-const getVideo = async (): Promise<Video> => {
-  if (videoBuf.length <= 0) {
-    const response = await pexelsClient.videos.popular({
-      page: videoPage,
-      per_page,
-    });
-    if ("error" in response) {
-      throw new Error(response.error);
-    }
-    if (typeof response.next_page === "string") {
-      videoPage += 1;
-    } else {
-      videoPage = 0;
-    }
-    videoBuf.push(...response.videos);
+const getVideos = async (page: number) => {
+  const videosResponse = await pexelsClient.videos.popular({ page, per_page });
+  if ("error" in videosResponse) {
+    throw new Error(videosResponse.error);
   }
-  return videoBuf.pop()!;
+  return videosResponse;
 };
 
 export async function GET() {
+  const page = Math.round(Math.random() * 1000);
   const posts: PostData[] = [];
-  for (let index = 0; index < 4; index += 1) {
-    const post = Math.random() > 0.5 ? await getPhoto() : await getVideo();
-    posts.push(post);
+  if (Math.random() > 0.5) {
+    const photosResponse = await getPhotos(page);
+    posts.push(...photosResponse.photos);
+  } else {
+    const videosResponse = await getVideos(page);
+    posts.push(...videosResponse.videos);
   }
   return Response.json(posts);
 }
